@@ -11,8 +11,7 @@ function LoginComponent(){
     const [showSuccessMesage,setShowSuccessMesage]=useState(false);
     const [showErrorMesage,setShowErrorMesage]=useState(false);
     const navigate=useNavigate();
-    const authcontext= useAuth();
-
+    const useauth=useAuth();
     function handleUserName(e){
         setUsername(e.target.value);
     }
@@ -22,15 +21,13 @@ function LoginComponent(){
     }
 
     function handleLogin(){
-        if(username==="Noor" && password==="1234"){
+        if(useauth.login(username,password)){
             setShowSuccessMesage(true);
             setShowErrorMesage(false);
-            authcontext.SetAuthenticated(true);
             navigate(`/welcome/${username}`);
             
 
         }else{
-            authcontext.SetAuthenticated(false);
             setShowSuccessMesage(false);
             setShowErrorMesage(true);            
         }

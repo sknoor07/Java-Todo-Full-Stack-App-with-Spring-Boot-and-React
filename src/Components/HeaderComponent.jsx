@@ -10,8 +10,9 @@ function HeaderComponent() {
             navigate("/login");
     }
     function handleLogout(){
-        authcontext.SetAuthenticated(false);
-        navigate("/logout");
+        if(authcontext.logout()){
+            navigate("/logout");
+        }
     }
     return (
         <header className="header">
