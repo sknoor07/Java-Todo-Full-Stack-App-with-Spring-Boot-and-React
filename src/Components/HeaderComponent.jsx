@@ -1,14 +1,17 @@
 import "C:/Users/noor/Desktop/FrontEnd/todoapp/node_modules/bootstrap/dist/css/bootstrap.rtl.min.css";
 import { Link,useNavigate } from "react-router-dom";
+import { useAuth } from "./Security/AuthContext";
 
 function HeaderComponent() {
     const navigate = useNavigate();
-
+    const authcontext= useAuth();
+    const isauthenticated=authcontext.isAuthenticated;
     function handleLogin(){
             navigate("/login");
     }
     function handleLogout(){
-            navigate("/logout");
+        authcontext.SetAuthenticated(false);
+        navigate("/logout");
     }
     return (
         <header className="header">
@@ -23,15 +26,15 @@ function HeaderComponent() {
                         </a>
                     </div>
                     <ul className="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-                        <li><Link to="/Welcome/Noor" className="nav-link px-2 link-secondary">Home</Link></li>
-                        <li><Link to="/listtodos" className="nav-link px-2">List of To Do's</Link></li>
-                        <li><a href="*" className="nav-link px-2">Pricing</a></li>
-                        <li><a href="*" className="nav-link px-2">FAQs</a></li>
-                        <li><a href="*" className="nav-link px-2">About</a></li>
+                        <li>{isauthenticated&&<Link to="/Welcome/Noor" className="nav-link px-2 link-secondary">Home</Link>}</li>
+                        <li>{isauthenticated&&<Link to="/listtodos" className="nav-link px-2">List of To Do's</Link>}</li>
+                        <li>{isauthenticated&&<Link to="/pricing" className="nav-link px-2">Pricing</Link>}</li>
+                        <li>{isauthenticated&&<Link to="/faqs" className="nav-link px-2">FAQs</Link>}</li>
+                        <li>{isauthenticated&&<Link to="/about" className="nav-link px-2">About</Link>}</li>
                     </ul>
                     <div className="col-md-3 text-end">
-                        <button type="button" className="btn btn-outline-primary me-2" style={{margin:"10px"}} onClick={handleLogin}>Login</button>
-                        <button type="button" className="btn btn-primary"onClick={handleLogout}>Logout</button>
+                        {!isauthenticated&&<button type="button" className="btn btn-outline-primary me-2" style={{margin:"10px"}} onClick={handleLogin}>Login</button>}
+                        {isauthenticated&&<button type="button" className="btn btn-primary"onClick={handleLogout}>Logout</button>}
                     </div>
                 </header>
             </div>

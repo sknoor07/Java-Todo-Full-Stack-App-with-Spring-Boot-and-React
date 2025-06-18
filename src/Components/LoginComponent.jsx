@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './TodoApp.css'
 import "C:/Users/noor/Desktop/FrontEnd/todoapp/node_modules/bootstrap/dist/css/bootstrap.rtl.min.css";
+import { useAuth } from './Security/AuthContext';
 
 function LoginComponent(){
 
@@ -10,6 +11,7 @@ function LoginComponent(){
     const [showSuccessMesage,setShowSuccessMesage]=useState(false);
     const [showErrorMesage,setShowErrorMesage]=useState(false);
     const navigate=useNavigate();
+    const authcontext= useAuth();
 
     function handleUserName(e){
         setUsername(e.target.value);
@@ -23,10 +25,12 @@ function LoginComponent(){
         if(username==="Noor" && password==="1234"){
             setShowSuccessMesage(true);
             setShowErrorMesage(false);
+            authcontext.SetAuthenticated(true);
             navigate(`/welcome/${username}`);
             
 
         }else{
+            authcontext.SetAuthenticated(false);
             setShowSuccessMesage(false);
             setShowErrorMesage(true);            
         }

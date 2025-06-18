@@ -8,11 +8,13 @@ import WelcomeComponent from "./WelcomeComponent";
 import {BrowserRouter,Routes,Route} from "react-router-dom" 
 
 import "C:/Users/noor/Desktop/FrontEnd/todoapp/node_modules/bootstrap/dist/css/bootstrap.rtl.min.css";
+import AuthProvider from "./Security/AuthContext";
 function TodoApp(){
+    
     return(
     <div className="TodoApp">
         <h1>Todo Management App</h1>
-
+        <AuthProvider>
         <BrowserRouter>
             <HeaderComponent />
             <Routes>
@@ -25,6 +27,7 @@ function TodoApp(){
             </Routes>
             <FooterComponent />
         </BrowserRouter> 
+        </AuthProvider>
         
            </div>
         );
