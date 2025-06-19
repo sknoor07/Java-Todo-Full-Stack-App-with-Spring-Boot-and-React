@@ -2,11 +2,13 @@ import { useEffect, useState } from "react";
 import 'bootstrap/dist/css/bootstrap.rtl.min.css';
 import { deleteTodo, retrieveAllTodosForAUser } from "./api/TodoApiService";
 import { useAuth } from "./Security/AuthContext";
+import { useNavigate } from "react-router-dom";
 function ListTodoComponent(){
     const[todos,settodos]= useState([]);
     const[deletemessage,setdeletemessage]= useState(null);
     const useauth= useAuth();
     const username=useauth.username;
+    const navigate=useNavigate();
     
     // const todos=[
     //     {id:1, desc:"Noor",done:false,targetDate:newDate},
@@ -17,7 +19,6 @@ function ListTodoComponent(){
     function refreshTodos(){
         retrieveAllTodosForAUser(username)
         .then((response)=>{
-            console.log(response)
             settodos(response.data)
             }
         )
@@ -36,6 +37,11 @@ function ListTodoComponent(){
         .catch((err)=>console.log(err));
     }
 
+    function updatetodo(id){
+        console.log( "clicked id: " +id);
+        navigate(`/todo/${id}`);
+    }
+
     return(<div className="container">
         Todo Component
         <h1> Things you wan to do</h1>
@@ -47,6 +53,7 @@ function ListTodoComponent(){
                     <th>is Done?</th>
                     <th>Target Date</th>
                     <th>Delete</th>
+                    <th>update</th>
                 </tr>
             </thead>
             <tbody>
@@ -58,6 +65,7 @@ function ListTodoComponent(){
                             <td>{ele.done.toString()}</td>
                             <td>{ele.targetDate.toString()}</td>
                             <td><button className="btn btn-warning" onClick={()=>deletetodo(ele.id) }>delete</button></td>
+                            <td><button className="btn btn-success" onClick={()=>updatetodo(ele.id) }>update</button></td>
                         </tr>
                     )
                     )

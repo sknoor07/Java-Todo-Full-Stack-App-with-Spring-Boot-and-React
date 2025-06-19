@@ -9,6 +9,7 @@ import {BrowserRouter,Routes,Route, Navigate} from "react-router-dom"
 
 import "C:/Users/noor/Desktop/FrontEnd/todoapp/node_modules/bootstrap/dist/css/bootstrap.rtl.min.css";
 import AuthProvider, { useAuth } from "./Security/AuthContext";
+import UpdateTodoComponent from "./UpdateTodoCompoment";
 
 
 
@@ -21,21 +22,21 @@ function AuthenticateRoute({children}){
     }
 }
 function TodoApp(){
-    
     return(
     <div className="TodoApp">
         <h1>Todo Management App</h1>
         <AuthProvider>
         <BrowserRouter>
             <HeaderComponent />
-            <Routes>
-                <Route path="/" element={<LoginComponent />}/>
-                <Route path="/login" element={<LoginComponent />}/>
-                <Route path='/welcome/:username' element={<AuthenticateRoute><WelcomeComponent /></AuthenticateRoute>}/>
-                <Route path="/listtodos" element={<AuthenticateRoute><ListTodoComponent /></AuthenticateRoute>}/>
-                <Route path="/logout" element={<AuthenticateRoute><LogoutComponent /></AuthenticateRoute>} />
-                <Route path="*" element={<AuthenticateRoute><ErrorComponent /></AuthenticateRoute>} />
-            </Routes>
+                <Routes>
+                    <Route path="/" element={<LoginComponent />}/>
+                    <Route path="/login" element={<LoginComponent />}/>
+                    <Route path='/welcome/:username' element={<AuthenticateRoute><WelcomeComponent /></AuthenticateRoute>}/>
+                    <Route path='/todo/:id' element={<AuthenticateRoute><UpdateTodoComponent /></AuthenticateRoute>}/>
+                    <Route path="/listtodos" element={<AuthenticateRoute><ListTodoComponent /></AuthenticateRoute>}/>
+                    <Route path="/logout" element={<AuthenticateRoute><LogoutComponent /></AuthenticateRoute>} />
+                    <Route path="*" element={<AuthenticateRoute><ErrorComponent /></AuthenticateRoute>} />
+                </Routes>
             <FooterComponent />
         </BrowserRouter> 
         </AuthProvider>
