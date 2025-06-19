@@ -1,22 +1,52 @@
-import "C:/Users/noor/Desktop/FrontEnd/todoapp/node_modules/bootstrap/dist/css/bootstrap.rtl.min.css";
+import { useEffect, useState } from "react";
+import 'bootstrap/dist/css/bootstrap.rtl.min.css';
+import { deleteTodo, retrieveAllTodosForAUser } from "./api/TodoApiService";
+import { useAuth } from "./Security/AuthContext";
 function ListTodoComponent(){
-    const today= new Date();
-    const newDate= new Date(today.getFullYear()+12,today.getMonth(),today.getDate());
-    const todos=[
-        {id:1, desc:"Noor",done:false,targetDate:newDate},
-        {id:2, desc:"Noor Alam",done:false,targetDate:newDate},
-        {id:3, desc:"Noor Alam Shaikh",done:false,targetDate:newDate},
-        {id:4, desc:"Noor Alam Ahbar Ahmed Shaikh",done:false,targetDate:newDate},
-    ];
+    const[todos,settodos]= useState([]);
+    const[deletemessage,setdeletemessage]= useState(null);
+    const useauth= useAuth();
+    const username=useauth.username;
+    
+    // const todos=[
+    //     {id:1, desc:"Noor",done:false,targetDate:newDate},
+    //     {id:2, desc:"Noor Alam",done:false,targetDate:newDate},
+    //     {id:3, desc:"Noor Alam Shaikh",done:false,targetDate:newDate},
+    //     {id:4, desc:"Noor Alam Ahbar Ahmed Shaikh",done:false,targetDate:newDate},
+    // ];
+    function refreshTodos(){
+        retrieveAllTodosForAUser(username)
+        .then((response)=>{
+            console.log(response)
+            settodos(response.data)
+            }
+        )
+        .catch((error)=>console.log(error));
+    }
+
+    useEffect(()=>{refreshTodos()},[]);
+
+    function deletetodo(id){
+        deleteTodo(username,id)
+        .then((res)=> {
+            setdeletemessage(`Deleted Todo with id ${id}`);
+            refreshTodos()
+            console.log(res)
+        })
+        .catch((err)=>console.log(err));
+    }
+
     return(<div className="container">
         Todo Component
+        <h1> Things you wan to do</h1>
+        {deletemessage&&<div className="alert alert-warning">{deletemessage}</div>}
         <table className="table">
             <thead>
                 <tr>
-                    <th>Id</th>
                     <th>Description</th>
                     <th>is Done?</th>
                     <th>Target Date</th>
+                    <th>Delete</th>
                 </tr>
             </thead>
             <tbody>
@@ -24,10 +54,10 @@ function ListTodoComponent(){
                     todos.map(ele=>
                     (
                         <tr key={ele.id}>
-                            <td>{ele.id}</td>
-                            <td>{ele.desc}</td>
+                            <td>{ele.description}</td>
                             <td>{ele.done.toString()}</td>
-                            <td>{ele.targetDate.toDateString()}</td>
+                            <td>{ele.targetDate.toString()}</td>
+                            <td><button className="btn btn-warning" onClick={()=>deletetodo(ele.id) }>delete</button></td>
                         </tr>
                     )
                     )

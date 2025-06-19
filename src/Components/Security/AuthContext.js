@@ -5,13 +5,16 @@ export const useAuth= ()=>useContext(AuthContext);
 
 
 
+
 function AuthProvider({children}){
     const[isAuthenticated, SetAuthenticated]= useState(false);
+    const[username, SetSUername]= useState(null);
     
     function login(username, password){
-    if(username==="Noor" && password==="1234"){
+    if(username==="Noor Alam" && password==="1234"){
             
             SetAuthenticated(true);
+            SetSUername(username);
             return true;
             
 
@@ -26,7 +29,7 @@ function AuthProvider({children}){
         return(true);
     }
 
-    return (<AuthContext.Provider value={{isAuthenticated,login,logout}}>
+    return (<AuthContext.Provider value={{isAuthenticated,login,logout,username}}>
         {children}
     </AuthContext.Provider>);
 }
