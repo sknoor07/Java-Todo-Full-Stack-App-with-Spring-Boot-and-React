@@ -1,8 +1,9 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "./Security/AuthContext";
 import { useEffect, useState } from "react";
-import { retrieveTodo, updateTodo } from "./api/TodoApiService";
+import { AddTodo, retrieveTodo, updateTodo } from "./api/TodoApiService";
 import { ErrorMessage, Field, Form, Formik } from "formik";
+import moment from "moment";
 
 
 
@@ -37,13 +38,26 @@ function UpdateTodoComponent(){
             targetDate:values.targetDate,
             done:false
         }
-        updateTodo(username, id, todo)
-        .then((res)=>{
-            console.log(res)
-            navigate("/listtodos");
-        })
-        .catch((err)=>{
-        })
+
+        if(id===-1){
+            AddTodo(username, id, todo)
+            .then((res)=>{
+                console.log(res)
+                navigate("/listtodos");
+            })
+            .catch((err)=>{
+            })
+
+        }else{
+            updateTodo(username, id, todo)
+            .then((res)=>{
+                console.log(res)
+                navigate("/listtodos");
+            })
+            .catch((err)=>{
+            })
+        }
+        
         
     }
 
@@ -51,7 +65,7 @@ function UpdateTodoComponent(){
         let errors={}
         if(values.description.length<5)
             errors.description="Enter atleast 5 alphabet"
-        if(values.targetDate==null)
+        if(values.targetDate===null || values.targetDate==='' || !moment(values.targetDate).isValid)
             errors.targetDate="Enter target Date"
         return errors
 

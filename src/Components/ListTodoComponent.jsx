@@ -38,7 +38,6 @@ function ListTodoComponent(){
     }
 
     function updatetodo(id){
-        console.log( "clicked id: " +id);
         navigate(`/todo/${id}`);
     }
 
@@ -72,6 +71,9 @@ function ListTodoComponent(){
                 }
             </tbody>
         </table>
+        <div>
+            <button className="btn btn-success m-4" onClick={()=> updatetodo(-1)}> Add Todo</button>
+        </div>
     </div>
     );
 }
