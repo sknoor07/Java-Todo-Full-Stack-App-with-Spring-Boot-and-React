@@ -20,15 +20,12 @@ function LoginComponent(){
         setPassword(e.target.value);
     }
 
-    function handleLogin(){
-        if(useauth.login(username,password)){
-            setShowSuccessMesage(true);
-            setShowErrorMesage(false);
+    async function handleLogin(){
+        if(await useauth.login(username,password)){
             navigate(`/welcome/${username}`);
             
 
         }else{
-            setShowSuccessMesage(false);
             setShowErrorMesage(true);            
         }
     }
