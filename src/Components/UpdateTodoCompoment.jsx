@@ -28,7 +28,11 @@ function UpdateTodoComponent(){
         .catch((err)=> console.log(err));;
     }
 
-    useEffect(()=>retrievenotesTodo(),[id]);
+    useEffect(() => {
+    if (id !== "-1") { 
+        retrievenotesTodo();
+    }
+}, [id]);
 
     function saveTodo(values){
         const todo={
@@ -39,7 +43,7 @@ function UpdateTodoComponent(){
             done:false
         }
 
-        if(id===-1){
+        if(parseInt(id)===-1){
             AddTodo(username, id, todo)
             .then((res)=>{
                 console.log(res)
@@ -49,12 +53,14 @@ function UpdateTodoComponent(){
             })
 
         }else{
+            console.log("this is executed");
             updateTodo(username, id, todo)
             .then((res)=>{
                 console.log(res)
                 navigate("/listtodos");
             })
             .catch((err)=>{
+                console.log(err)
             })
         }
         
@@ -65,10 +71,9 @@ function UpdateTodoComponent(){
         let errors={}
         if(values.description.length<5)
             errors.description="Enter atleast 5 alphabet"
-        if(values.targetDate===null || values.targetDate==='' || !moment(values.targetDate).isValid)
+        if(values.targetDate===null || values.targetDate==='' || !moment(values.targetDate).isValid())
             errors.targetDate="Enter target Date"
-        return errors
-
+        return errors;
     }
 
     return(

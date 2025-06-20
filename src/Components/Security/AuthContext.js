@@ -1,5 +1,6 @@
 import { createContext, useContext, useState } from "react";
 import { executeBasicAuthentication } from "../api/TodoApiService";
+import { apiClient } from "../api/ApiClient";
 
 const AuthContext= createContext();
 export const useAuth= ()=>useContext(AuthContext);
@@ -34,6 +35,12 @@ function AuthProvider({children}){
             SetAuthenticated(true);
             SetSUername(username);
             settoken(batoken)
+            apiClient.interceptors.request.use(
+                (config)=>{
+                    config.headers.Authorization=batoken;
+                    return config;
+                }
+            );
             return true;
             
 

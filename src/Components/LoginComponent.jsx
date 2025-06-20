@@ -8,7 +8,6 @@ function LoginComponent(){
 
     const [username, setUsername]= useState("");
     const [password, setPassword]= useState("");
-    const [showSuccessMesage,setShowSuccessMesage]=useState(false);
     const [showErrorMesage,setShowErrorMesage]=useState(false);
     const navigate=useNavigate();
     const useauth=useAuth();
@@ -45,7 +44,6 @@ function LoginComponent(){
                 <button type="button" onClick={handleLogin}> Login</button>
             </div>
             <div>
-                {showSuccessMesage && <div>Authenticated Successfully</div>}
                 {showErrorMesage && <div> Authentication Failed</div>}
             </div>
         </div>
