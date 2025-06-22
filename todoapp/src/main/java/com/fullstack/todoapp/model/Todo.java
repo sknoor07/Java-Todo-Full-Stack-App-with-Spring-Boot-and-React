@@ -2,7 +2,14 @@ package com.fullstack.todoapp.model;
 
 import java.time.LocalDate;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+
+@Entity
 public class Todo {
+	@Id
+	@GeneratedValue
 	private  int id;
 	private String username;
 	private String description;
@@ -12,20 +19,14 @@ public class Todo {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Todo(int id, String username, String description, LocalDate targetDate, boolean done) {
+	public Todo(String username, String description, LocalDate targetDate, boolean done) {
 		super();
-		this.id = id;
 		this.username = username;
 		this.description = description;
 		this.targetDate = targetDate;
 		this.done = done;
 	}
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
+	
 	public String getUsername() {
 		return username;
 	}
