@@ -28,6 +28,7 @@ function ListTodoComponent(){
     useEffect(()=>{refreshTodos()},[]);
 
     function deletetodo(id){
+        if(!id) console.log("No id found")
         deleteTodo(username,id)
         .then((res)=> {
             setdeletemessage(`Deleted Todo with id ${id}`);
@@ -38,6 +39,7 @@ function ListTodoComponent(){
     }
 
     function updatetodo(id){
+        if(!id) console.log("No id found")
         navigate(`/todo/${id}`);
     }
 
