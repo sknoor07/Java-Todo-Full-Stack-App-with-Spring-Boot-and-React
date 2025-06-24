@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { executeBasicAuthentication } from "../api/TodoApiService";
+import { executeJWtAuthentication } from "../api/JwtAuthenticationAPIService";
 import { apiClient } from "../api/ApiClient";
 
 const AuthContext= createContext();
@@ -27,17 +27,47 @@ function AuthProvider({children}){
     //     }
     // }
 
+    //Basic Authentication
+    // async function login(username, password){
+    //     const batoken='Basic '+window.btoa(username+":"+password)
+    //    try{
+    //     const response=await executeBasicAuthentication(batoken);
+    //     if(response.status===200){    
+    //         SetAuthenticated(true);
+    //         SetSUername(username);
+    //         settoken(batoken)
+    //         apiClient.interceptors.request.use(
+    //             (config)=>{
+    //                 config.headers.Authorization=batoken;
+    //                 return config;
+    //             }
+    //         );
+    //         return true;
+            
+
+    //     }else{
+    //         logout();
+    //         return false;            
+    //     }
+    // }catch(e){
+    //     logout();
+    //     console.log(e);
+    //     return false;
+    // }
+    // }
+
+    //JWT Autehntication
     async function login(username, password){
-        const batoken='Basic '+window.btoa(username+":"+password)
        try{
-        const response=await executeBasicAuthentication(batoken);
+        const response=await executeJWtAuthentication(username,password);
         if(response.status===200){    
+            const jwttoken='Bearer '+response.data.token;
             SetAuthenticated(true);
             SetSUername(username);
-            settoken(batoken)
+            settoken(jwttoken)
             apiClient.interceptors.request.use(
                 (config)=>{
-                    config.headers.Authorization=batoken;
+                    config.headers.Authorization=jwttoken;
                     return config;
                 }
             );

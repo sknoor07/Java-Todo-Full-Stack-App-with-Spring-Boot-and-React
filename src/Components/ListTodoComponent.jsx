@@ -45,7 +45,7 @@ function ListTodoComponent(){
 
     return(<div className="container">
         Todo Component
-        <h1> Things you wan to do</h1>
+        <h1> Things you want to do</h1>
         {deletemessage&&<div className="alert alert-warning">{deletemessage}</div>}
         <table className="table">
             <thead>
