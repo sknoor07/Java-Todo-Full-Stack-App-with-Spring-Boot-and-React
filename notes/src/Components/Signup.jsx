@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "../App.css";
 import { useNavigate } from "react-router-dom";
 
-function Login() {
+function Singup() {
   const navigate = useNavigate();
   const [logindetails, setlogindetails] = useState({
     username: "",
@@ -16,7 +16,7 @@ function Login() {
     if (logindetails.username === "Noor" && logindetails.password === "1111") {
       setsuccessMessage(true);
       seterrorMessage(false);
-      navigate(`/welcome/${logindetails.username}`);
+      navigate("/welcome");
     } else {
       seterrorMessage(true);
       setsuccessMessage(false);
@@ -68,8 +68,18 @@ function Login() {
             ></input>
           </div>
           <div>
+            <label> Password </label>
+            <input
+              name="password"
+              placeholder="password "
+              type="text"
+              value={logindetails.password}
+              onChange={handlecredenatils}
+            ></input>
+          </div>
+          <div>
             <button type="Submit" onClick={handleSubmit}>
-              Login
+              Singn Up
             </button>
           </div>
         </form>
@@ -78,4 +88,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Singup;

@@ -1,0 +1,51 @@
+/* Full screen blue background */
+.error-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #2563eb; /* Tailwind's blue-600 */
+}
+
+/* Centered text */
+.error-content {
+  text-align: center;
+  color: white;
+  padding: 20px;
+}
+
+/* Big 404 text */
+.error-code {
+  font-size: 100px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* Title */
+.error-title {
+  font-size: 24px;
+  margin-bottom: 15px;
+}
+
+/* Message */
+.error-message {
+  font-size: 18px;
+  margin-bottom: 25px;
+}
+
+/* Button style */
+.error-button {
+  display: inline-block;
+  padding: 12px 24px;
+  border: 2px solid white;
+  border-radius: 8px;
+  font-weight: bold;
+  color: white;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.error-button:hover {
+  background-color: white;
+  color: #2563eb;
+}
