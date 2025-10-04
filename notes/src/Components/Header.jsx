@@ -1,7 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "./Security/AuthProvider";
+import "../App.css";
 
 function Header() {
+  const authContext = useAuth();
+  const user = "Noor";
+
   return (
     <div className="container">
       <header className="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
@@ -25,42 +30,70 @@ function Header() {
           </Link>
         </div>
 
-        <ul className="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-          <li>
-            <a href="#" className="nav-link px-2 link-secondary">
-              Home
-            </a>
-          </li>
-          <li>
-            <a href="#" className="nav-link px-2">
-              Features
-            </a>
-          </li>
-          <li>
-            <a href="#" className="nav-link px-2">
-              Pricing
-            </a>
-          </li>
-          <li>
-            <a href="#" className="nav-link px-2">
-              FAQs
-            </a>
-          </li>
-          <li>
-            <a href="#" className="nav-link px-2">
-              About
-            </a>
-          </li>
+        <ul className="nav header-nav-center mb-2 mb-md-0">
+          {authContext.isauthenticated && (
+            <li>
+              <Link
+                to={`/welcome/${user}`}
+                className="nav-link px-2 link-secondary"
+              >
+                Home
+              </Link>
+            </li>
+          )}
+          {authContext.isauthenticated && (
+            <li>
+              <a href="#" className="nav-link px-2">
+                Features
+              </a>
+            </li>
+          )}
+          {authContext.isauthenticated && (
+            <li>
+              <a href="#" className="nav-link px-2">
+                Pricing
+              </a>
+            </li>
+          )}
+          {authContext.isauthenticated && (
+            <li>
+              <a href="#" className="nav-link px-2">
+                FAQs
+              </a>
+            </li>
+          )}
+          {authContext.isauthenticated && (
+            <li>
+              <a href="#" className="nav-link px-2">
+                About
+              </a>
+            </li>
+          )}
         </ul>
 
-        <div className="col-md-3 text-end">
-          <Link to="/login" className="btn btn-outline-primary me-2">
-            Login
-          </Link>
-          <Link to="/signup" className="btn btn-primary">
-            Sign-up
-          </Link>
-        </div>
+        {!authContext.isauthenticated && (
+          <div className="col-md-3 text-end">
+            <Link to="/login" className="btn btn-outline-primary me-2">
+              Login
+            </Link>
+            <Link to="/signup" className="btn btn-primary">
+              Sign-up
+            </Link>
+          </div>
+        )}
+        {authContext.isauthenticated && (
+          <div className="col-md-3 text-end">
+            <Link
+              to="/login"
+              className="btn btn-outline-primary me-2"
+              onClick={() => {
+                authContext.logout(false);
+              }}
+            >
+              Logout
+            </Link>
+          </div>
+        )}
       </header>
     </div>
   );

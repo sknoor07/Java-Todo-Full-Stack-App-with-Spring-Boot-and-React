@@ -1,7 +1,7 @@
 import React from "react";
 import Login from "./Login";
 import Welcome from "./Welcome";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Footer from "./Footer";
 
 import Error from "./Error";
@@ -11,7 +11,11 @@ import Header from "./Header";
 import AuthProvider, { useAuth } from "./Security/AuthProvider";
 
 function NotesApp() {
-  const authContext = useAuth();
+  function AuthenticateRoute({ children }) {
+    const authContext = useAuth();
+    if (authContext.isauthenticated) return children;
+    return <Navigate to="/login" />;
+  }
   return (
     <div>
       <AuthProvider>
@@ -21,8 +25,23 @@ function NotesApp() {
             <Route path="/" element={<Login />} />
             <Route path="/login" element={<Login />}></Route>
             <Route path="/signup" element={<Singup />}></Route>
-            <Route path="/welcome/:username" element={<Welcome />}></Route>
-            <Route path="/notes" element={<ListNotes />}></Route>
+            <Route
+              path="/welcome/:username"
+              element={
+                <AuthenticateRoute>
+                  {" "}
+                  <Welcome />
+                </AuthenticateRoute>
+              }
+            ></Route>
+            <Route
+              path="/notes"
+              element={
+                <AuthenticateRoute>
+                  <ListNotes />
+                </AuthenticateRoute>
+              }
+            ></Route>
             <Route path="*" element={<Error />}></Route>
           </Routes>
           <Footer />

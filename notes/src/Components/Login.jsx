@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "../App.css";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "./Security/AuthProvider";
 
 function Login() {
   const navigate = useNavigate();
@@ -8,18 +9,14 @@ function Login() {
     username: "",
     password: "",
   });
-
-  const [successMessage, setsuccessMessage] = useState(false);
   const [errorMessage, seterrorMessage] = useState(false);
+  const authContext = useAuth();
 
   function handleSubmit(event) {
-    if (logindetails.username === "Noor" && logindetails.password === "1111") {
-      setsuccessMessage(true);
-      seterrorMessage(false);
+    if (authContext.login(logindetails.username, logindetails.password)) {
       navigate(`/welcome/${logindetails.username}`);
     } else {
       seterrorMessage(true);
-      setsuccessMessage(false);
     }
     event.preventDefault();
   }
@@ -38,9 +35,7 @@ function Login() {
   return (
     <div className="login">
       <div className="login-form">
-        <div className="successMessage">
-          {successMessage && <h1>Authenticted Successfully</h1>}
-        </div>
+        <div className="successMessage"></div>
         <div className="errorMessage">
           {errorMessage && (
             <h1>Authenticted Failed, PLease check Your credentials</h1>

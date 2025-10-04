@@ -42,3 +42,9 @@ button {
   margin: 10px;
   padding: 5px;
 }
+
+.header-nav-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
