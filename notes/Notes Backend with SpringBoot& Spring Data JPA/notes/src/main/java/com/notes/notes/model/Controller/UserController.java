@@ -29,9 +29,14 @@ public class UserController {
 		
 	}
 	
-	@GetMapping("/users/{id}")
+	@GetMapping("/users/id/{id}")
 	public Users getUser(@PathVariable int id) {
 		return userDaoService.findOne(id);
+	}
+	
+	@GetMapping("/users/{username}")
+	public Users getUserByUsername(@PathVariable String username) {
+		return userDaoService.getUserByUsername(username);
 	}
 	
 	@PostMapping("/users")

@@ -12,18 +12,17 @@ function Login() {
   const [errorMessage, seterrorMessage] = useState(false);
   const authContext = useAuth();
 
-  function handleSubmit(event) {
-    if (authContext.login(logindetails.username, logindetails.password)) {
+  async function handleSubmit(event) {
+    event.preventDefault();
+    if (await authContext.login(logindetails.username, logindetails.password)) {
       navigate(`/welcome/${logindetails.username}`);
     } else {
       seterrorMessage(true);
     }
-    event.preventDefault();
   }
 
   function handlecredenatils(event) {
     const { name, value } = event.target;
-    console.log(value);
     setlogindetails((prevvalue) => {
       return {
         ...prevvalue,

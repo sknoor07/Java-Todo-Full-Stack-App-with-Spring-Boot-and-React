@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.management.RuntimeErrorException;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,7 +42,7 @@ public class NotesController {
 	}
 	
 	@PostMapping("/user/{id}/notes")
-	public Notes creteNotesForUser(@PathVariable int id, @RequestBody Notes notes) {
+	public Notes createNotesForUser(@PathVariable int id, @RequestBody Notes notes) {
 		Users user= userDaoService.findOne(id);
 		if(user==null) {
 			throw new RuntimeErrorException(null, "User Not Found"+id);
@@ -49,5 +50,16 @@ public class NotesController {
 		notes.setUsers(user);
 		return notesDaoService.save(notes);
 	}
+	
+	@DeleteMapping("/user/{userid}/notes/{noteid}")
+	public Notes deleteNotesForUser(@PathVariable int userid,@PathVariable int noteid) {
+		Users user= userDaoService.findOne(userid);
+		if(user==null) {
+			throw new RuntimeErrorException(null, "User Not Found"+userid);
+		}
+		return notesDaoService.delete(noteid);
+	}
+	
+	
 	
 }

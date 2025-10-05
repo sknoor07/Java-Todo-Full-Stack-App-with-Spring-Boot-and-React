@@ -87,7 +87,7 @@ function Header() {
               to="/login"
               className="btn btn-outline-primary me-2"
               onClick={() => {
-                authContext.logout(false);
+                authContext.logout();
               }}
             >
               Logout

@@ -34,6 +34,11 @@ public class UserDaoService {
 	public Users save(Users user) {
 		return userRepository.save(user);
 	}
+
+	public Users getUserByUsername(String username) {
+		return userRepository.findByUsername(username);
+		
+	}
 	
 
 }

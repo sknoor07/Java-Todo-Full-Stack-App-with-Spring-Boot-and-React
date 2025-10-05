@@ -7,5 +7,5 @@ import com.notes.notes.model.Users;
 
 @Repository
 public interface UserRepository extends JpaRepository<Users, Integer>{
-
+	Users findByUsername(String username);
 }

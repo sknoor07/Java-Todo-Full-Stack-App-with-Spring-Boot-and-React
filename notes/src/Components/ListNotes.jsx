@@ -1,20 +1,38 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import "../App.css";
+import { useAuth } from "./Security/AuthProvider";
+import { deleteNote, retrieveAllNotesForUser } from "./Api/api";
 
 function ListNotes() {
-  const today = new Date();
-  const targetDate = new Date(
-    today.getFullYear() + 12,
-    today.getMonth(),
-    today.getDate()
-  );
-  const notes = [
-    { id: 1, description: "Learn Fulll Stack", targetDate: targetDate },
-    { id: 2, description: "Learn Aws ", targetDate: targetDate },
-    { id: 3, description: "Learn Spring Boot", targetDate: targetDate },
-    { id: 4, description: "Learn Spring AI", targetDate: targetDate },
-  ];
+  const authContext = useAuth();
+
+  const [notes, setNotes] = useState([{}]);
+
+  async function refeshNotes() {
+    try {
+      const response = await retrieveAllNotesForUser(authContext.userid);
+      setNotes(response.data);
+    } catch (error) {
+      console.error("Error fetching notes:", error);
+    }
+  }
+
+  useEffect(() => {
+    refeshNotes();
+  }, []);
+
+  async function handleDeleteNote(id) {
+    try {
+      console.log(`delete note ${id} for user ${authContext.userid}`);
+      await deleteNote(authContext.userid, id).then(() => {
+        refeshNotes();
+        console.log("Note deleted successfully");
+      });
+    } catch (error) {
+      console.error("Error Deleting notes:", error);
+    }
+  }
   return (
     <div className="container">
       <h1> Things to do</h1>
@@ -22,18 +40,33 @@ function ListNotes() {
         <table className="table">
           <thead>
             <tr>
-              <td>Id</td>
-              <td>Description</td>
-              <td>Target Date</td>
+              <th>Description</th>
+              <th>Target Date</th>
+              <th>Delete</th>
+              <th>Update</th>
             </tr>
           </thead>
           <tbody>
             {notes.map((note, index) => {
               return (
                 <tr key={index}>
-                  <td>{note.id}</td>
                   <td>{note.description}</td>
-                  <td>{note.targetDate.toDateString()}</td>
+                  <td>
+                    {note.targetDate
+                      ? new Date(note.targetDate).toDateString()
+                      : ""}
+                  </td>
+                  <td>
+                    <button
+                      className="btn btn-warning"
+                      onClick={() => handleDeleteNote(note.id)}
+                    >
+                      delete
+                    </button>
+                  </td>
+                  <td>
+                    <button className="btn btn-success">update</button>
+                  </td>
                 </tr>
               );
             })}

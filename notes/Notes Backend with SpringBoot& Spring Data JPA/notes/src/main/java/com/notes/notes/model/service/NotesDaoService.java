@@ -26,12 +26,18 @@ private NotesRepository notesRepository;
 		return notesRepository.findAll();
 	}	
 	
-	public Notes Notes (int id) {
+	public Notes findbyId (int id) {
 		return notesRepository.findById(id).orElse(null);
 		
 	}
 	
 	public Notes save(Notes notes) {
 		return notesRepository.save(notes);
+	}
+
+	public Notes delete(int noteid) {
+		Notes note=findbyId(noteid);
+		notesRepository.delete(note);
+		return note;
 	}
 }
