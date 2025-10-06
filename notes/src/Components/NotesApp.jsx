@@ -9,6 +9,7 @@ import Singup from "./Signup";
 import ListNotes from "./ListNotes";
 import Header from "./Header";
 import AuthProvider, { useAuth } from "./Security/AuthProvider";
+import UpdateNoteComponent from "./UpdateNoteComponent";
 
 function NotesApp() {
   function AuthenticateRoute({ children }) {
@@ -39,6 +40,14 @@ function NotesApp() {
               element={
                 <AuthenticateRoute>
                   <ListNotes />
+                </AuthenticateRoute>
+              }
+            ></Route>
+            <Route
+              path="/updateNote/:id"
+              element={
+                <AuthenticateRoute>
+                  <UpdateNoteComponent />
                 </AuthenticateRoute>
               }
             ></Route>

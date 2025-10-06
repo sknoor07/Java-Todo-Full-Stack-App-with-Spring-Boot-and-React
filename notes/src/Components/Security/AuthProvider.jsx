@@ -29,6 +29,7 @@ function AuthProvider({ children }) {
 
   function logout() {
     setauthenticated(false);
+    setuserid("");
     console.log("User logged out");
   }
 

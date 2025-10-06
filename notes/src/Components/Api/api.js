@@ -19,3 +19,11 @@ export const retrieveAllNotesForUser = (userid) => {
 export const deleteNote = (userid, id) => {
   return apiClient.delete(`/user/${userid}/notes/${id}`);
 };
+
+export const retrieveNoteForUser = (noteid, userid) => {
+  return apiClient.get(`/user/${userid}/note/${noteid}`);
+};
+
+export const updateNoteForUser = (userid, noteid, note) => {
+  return apiClient.put(`/user/${userid}/note/${noteid}`, note);
+};

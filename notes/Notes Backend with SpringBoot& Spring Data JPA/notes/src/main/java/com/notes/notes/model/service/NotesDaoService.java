@@ -1,15 +1,11 @@
 package com.notes.notes.model.service;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
 
 import com.notes.notes.RepositoryJPA.NotesRepository;
-import com.notes.notes.RepositoryJPA.UserRepository;
 import com.notes.notes.model.Notes;
-import com.notes.notes.model.Users;
 
 @Component
 public class NotesDaoService {
@@ -40,4 +36,8 @@ private NotesRepository notesRepository;
 		notesRepository.delete(note);
 		return note;
 	}
+	
+	
+	
+	
 }

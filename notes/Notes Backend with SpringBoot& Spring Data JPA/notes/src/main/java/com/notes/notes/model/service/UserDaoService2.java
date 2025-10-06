@@ -3,9 +3,6 @@ package com.notes.notes.model.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
-
-import org.springframework.stereotype.Component;
 
 import com.notes.notes.model.Users;
 
@@ -25,9 +22,7 @@ public class UserDaoService2 {
 	}	
 	
 	public Users findOne(int id) {
-		
 		return users.stream().filter(user->user.getId()==id).findFirst().orElse(null);
-		
 	}
 	
 	public Users save(Users user) {

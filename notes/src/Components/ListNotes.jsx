@@ -3,10 +3,11 @@ import React, { useEffect, useState } from "react";
 import "../App.css";
 import { useAuth } from "./Security/AuthProvider";
 import { deleteNote, retrieveAllNotesForUser } from "./Api/api";
+import { useNavigate } from "react-router-dom";
 
 function ListNotes() {
   const authContext = useAuth();
-
+  const navigate = useNavigate();
   const [notes, setNotes] = useState([{}]);
 
   async function refeshNotes() {
@@ -33,6 +34,11 @@ function ListNotes() {
       console.error("Error Deleting notes:", error);
     }
   }
+
+  async function handleUpdateNote(id) {
+    navigate(`/updateNote/${id}`);
+  }
+
   return (
     <div className="container">
       <h1> Things to do</h1>
@@ -65,7 +71,12 @@ function ListNotes() {
                     </button>
                   </td>
                   <td>
-                    <button className="btn btn-success">update</button>
+                    <button
+                      className="btn btn-success"
+                      onClick={() => handleUpdateNote(note.id)}
+                    >
+                      update
+                    </button>
                   </td>
                 </tr>
               );
