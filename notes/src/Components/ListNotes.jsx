@@ -39,6 +39,10 @@ function ListNotes() {
     navigate(`/updateNote/${id}`);
   }
 
+  function handleAddNote() {
+    navigate("/updateNote/-1");
+  }
+
   return (
     <div className="container">
       <h1> Things to do</h1>
@@ -83,6 +87,11 @@ function ListNotes() {
             })}
           </tbody>
         </table>
+        <div>
+          <button className="btn btn-success m-5" onClick={handleAddNote}>
+            Add Notes
+          </button>
+        </div>
       </div>
     </div>
   );

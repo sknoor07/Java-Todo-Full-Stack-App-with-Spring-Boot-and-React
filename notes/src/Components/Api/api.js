@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const apiClient = axios.create({
+export const apiClient = axios.create({
   baseURL: "http://localhost:8080",
 });
 
@@ -8,8 +8,12 @@ export const testcall = () => {
   return apiClient.get("/users");
 };
 
-export const findUser = (username) => {
-  return apiClient.get(`/users/${username}`);
+export const findUser = (username, batoken) => {
+  return apiClient.get(`/users/${username}`, {
+    headers: {
+      Authorization: batoken,
+    },
+  });
 };
 
 export const retrieveAllNotesForUser = (userid) => {
@@ -26,4 +30,8 @@ export const retrieveNoteForUser = (noteid, userid) => {
 
 export const updateNoteForUser = (userid, noteid, note) => {
   return apiClient.put(`/user/${userid}/note/${noteid}`, note);
+};
+
+export const createNoteForUser = (userid, note) => {
+  return apiClient.post(`/user/${userid}/notes`, note);
 };

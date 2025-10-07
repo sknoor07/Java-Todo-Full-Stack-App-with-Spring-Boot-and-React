@@ -30,6 +30,11 @@ public class NotesController {
 		this.userDaoService = userDaoService;
 		this.notesDaoService= notesDaoService;
 	}
+	
+	@GetMapping("/basicauth")
+	public String basicAuth() {
+		return "Success";
+	}
 
 
 

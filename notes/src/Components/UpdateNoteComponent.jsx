@@ -1,7 +1,11 @@
 import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "./Security/AuthProvider";
-import { retrieveNoteForUser, updateNoteForUser } from "./Api/api";
+import {
+  createNoteForUser,
+  retrieveNoteForUser,
+  updateNoteForUser,
+} from "./Api/api";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import moment from "moment/moment";
 
@@ -19,24 +23,37 @@ function UpdateNoteComponent() {
   }, [id]);
 
   async function fetchNote() {
-    try {
-      await retrieveNoteForUser(id, authContext.userid)
-        .then((response) => setUpdateNote(response.data))
-        .catch((error) => console.log(error));
-    } catch (error) {
-      console.error("Error fetching note:", error);
+    if (id !== "-1") {
+      try {
+        await retrieveNoteForUser(id, authContext.userid)
+          .then((response) => setUpdateNote(response.data))
+          .catch((error) => console.log(error));
+      } catch (error) {
+        console.error("Error fetching note:", error);
+      }
     }
   }
 
   async function handleSubmit(values) {
-    const note = {
-      id: id,
-      description: values.description,
-      targetDate: moment(values.targetDate).format("YYYY-MM-DD"),
-      isdone: false,
-    };
-    await updateNoteForUser(authContext.userid, id, note);
-    navigate("/notes");
+    var note = {};
+    if (id !== "-1") {
+      note = {
+        id: id,
+        description: values.description,
+        targetDate: moment(values.targetDate).format("YYYY-MM-DD"),
+        isdone: false,
+      };
+      await updateNoteForUser(authContext.userid, id, note);
+      navigate("/notes");
+    } else {
+      note = {
+        description: values.description,
+        targetDate: moment(values.targetDate).format("YYYY-MM-DD"),
+        isdone: false,
+      };
+      await createNoteForUser(authContext.userid, note);
+      navigate("/notes");
+    }
   }
 
   function validatevalues(values) {
@@ -46,7 +63,11 @@ function UpdateNoteComponent() {
       errors.description = "Enter at least 5 characters in description";
     }
 
-    if (!values.targetDate || !moment(values.targetDate).isValid()) {
+    if (
+      !values.targetDate ||
+      values.targetDate === "" ||
+      !moment(values.targetDate).isValid()
+    ) {
       errors.targetDate = "Enter a valid target date";
     } else if (moment(values.targetDate).isBefore(moment(), "day")) {
       errors.targetDate = "Target date cannot be in the past";

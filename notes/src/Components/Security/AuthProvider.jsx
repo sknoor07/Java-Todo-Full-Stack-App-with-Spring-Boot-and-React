@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { findUser } from "../Api/api";
+import { apiClient, findUser } from "../Api/api";
 
 const authContext = createContext();
 export const useAuth = () => useContext(authContext);
@@ -9,12 +9,16 @@ function AuthProvider({ children }) {
   const [userid, setuserid] = useState("");
 
   async function login(username, password) {
+    const batoken = "basic " + window.btoa("admin:admin");
+
     try {
-      const response = await findUser(username);
+      const response = await findUser(username, batoken);
       const user = response.data;
       if (user.username === username && user.password === password) {
         setuserid(user.id);
         setauthenticated(true);
+        apiClient.defaults.headers.common["Authorization"] = batoken;
+        console.log("User logged in");
         return true;
       } else {
         setauthenticated(false);
