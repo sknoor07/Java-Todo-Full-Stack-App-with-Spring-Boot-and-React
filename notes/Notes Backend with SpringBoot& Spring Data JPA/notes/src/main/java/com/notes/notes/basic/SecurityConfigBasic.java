@@ -8,12 +8,12 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 
-@Configuration
+//@Configuration
 public class SecurityConfigBasic {
 	@Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http
-        	.authorizeHttpRequests(authorize -> authorize
+        	.authorizeHttpRequests(authorize -> authorize 
         			.requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
         			.anyRequest().authenticated()
         			)

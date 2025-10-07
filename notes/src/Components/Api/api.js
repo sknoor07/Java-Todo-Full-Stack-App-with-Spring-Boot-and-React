@@ -1,19 +1,7 @@
-import axios from "axios";
-
-export const apiClient = axios.create({
-  baseURL: "http://localhost:8080",
-});
+import { apiClient } from "./apiClient";
 
 export const testcall = () => {
   return apiClient.get("/users");
-};
-
-export const findUser = (username, batoken) => {
-  return apiClient.get(`/users/${username}`, {
-    headers: {
-      Authorization: batoken,
-    },
-  });
 };
 
 export const retrieveAllNotesForUser = (userid) => {
